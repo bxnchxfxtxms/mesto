@@ -1,0 +1,14 @@
+.popup__close-button-container {
+  max-width: 510px;
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+  width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .popup__close-button-container {
+    max-width: 282px;
+    padding-bottom: 16px;
+  }
+}
