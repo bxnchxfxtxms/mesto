@@ -9,6 +9,7 @@
   opacity: 1;
   transition: .2s ease-out;
   cursor: pointer;
+  color: transparent;
 }
 
 .element__like-button:hover {

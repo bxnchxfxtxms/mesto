@@ -9,9 +9,14 @@
   padding-bottom: 0;
 }
 
+@media screen and (max-width: 768px) {
+  .profile__info-line {
+    padding-bottom: 14px;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .profile__info-line {
     justify-content: center;
-    padding-bottom: 14px;
   }
 }
