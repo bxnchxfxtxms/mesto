@@ -22,10 +22,6 @@ profileEditButton.addEventListener('click', openPopup);
 
 popupCloseButton.addEventListener('click', closePopup);
 
-function saveBtnClicked() {
-  popup.classList.remove('popup_opened_true');
-}
-
 function formSubmitHandler (evt) {
   evt.preventDefault();
   userName.textContent = nameInput.value;
