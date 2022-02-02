@@ -1,0 +1,7 @@
+.popup_type_picture-zoom {
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s linear;
+  background-color: rgba(0, 0, 0, .9);
+}

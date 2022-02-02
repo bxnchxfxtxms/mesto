@@ -16,6 +16,10 @@
   margin: 0 0 0 36px;
 }
 
+.popup__input-field::placeholder {
+  color: #C4C4C4;
+}
+
 @media screen and (max-width: 600px) {
   .popup__input-field {
     width: 238px;

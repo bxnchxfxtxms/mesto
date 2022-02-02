@@ -29,62 +29,7 @@
     </section>
 
     <section class="elements">
-      <ul class="elements__grid">
-        <li class="element">
-          <img class="element__image" src="./images/element-tver.jpg" alt="Старый Волжский мост г.Тверь">
-          <div class="element__bottom-bar">
-            <h2 class="element__title">
-              Тверь
-            </h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__image" src="./images/element-krasnoyarsk.jpg" alt="Красноярск">
-          <div class="element__bottom-bar">
-            <h2 class="element__title">
-              Красноярск
-            </h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__image" src="./images/element-ergaki.jpg" alt="Ергаки">
-          <div class="element__bottom-bar">
-            <h2 class="element__title">
-              Ергаки
-            </h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__image" src="./images/element-olkhon.jpg" alt="Вид на скалу Шаманка с острова Ольхон">
-          <div class="element__bottom-bar">
-            <h2 class="element__title">
-              Остров Ольхон
-            </h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__image" src="./images/element-everest.jpg" alt="Гора Эверест">
-          <div class="element__bottom-bar">
-            <h2 class="element__title">
-              Гора Эверест
-            </h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </li>
-        <li class="element">
-          <img class="element__image" src="./images/element-sequoia.jpg" alt="Секвойи">
-          <div class="element__bottom-bar">
-            <h2 class="element__title">
-              Национальный парк Секвойя
-            </h2>
-            <button class="element__like-button" type="button"></button>
-          </div>
-        </li>
-      </ul>
+      <ul class="elements__grid"></ul>
     </section>
   </main>
 
@@ -94,23 +39,64 @@
     </p>
   </footer>
 
-  <section class="popup">
+  <section class="popup popup_type_edit-profile">
     <div class="popup__container">
       <div class="popup__close-button-container">
-        <button class="popup__close-button" type="button"></button>
+        <button class="popup__close-button popup__close-button_type_close-edit-profile" type="button"></button>
       </div>
-      <form class="popup__edit-profile" name="user-info">
+      <form class="popup__form popup__form_type_edit-profile" name="user-info">
         <fieldset class="popup__input-fields">
           <h3 class="popup__title">
             Редактировать профиль
           </h3>
           <input class="popup__input-field popup__input-field_input-type_username" type="text" name="username">
           <input class="popup__input-field popup__input-field_input-type_user-bio" type="text" name="user-bio">
-          <input class="popup__save-button" type="submit" value="Сохранить" name="submit">
+          <input class="popup__submit-button popup__submit-button_type_save-info" type="submit" value="Сохранить" name="submit">
         </fieldset>
       </form>
     </div>
   </section>
+
+  <section class="popup popup_type_add-place">
+    <div class="popup__container">
+      <div class="popup__close-button-container">
+        <button class="popup__close-button popup__close-button_type_close-add-place" type="button"></button>
+      </div>
+      <form class="popup__form popup__form_type_add-place" name="user-info">
+        <fieldset class="popup__input-fields">
+          <h3 class="popup__title">
+            Новое место
+          </h3>
+          <input class="popup__input-field popup__input-field_input-type_place" type="text" name="place" placeholder="Название">
+          <input class="popup__input-field popup__input-field_input-type_picture-link" type="text" name="picture-link" placeholder="Ссылка на картинку">
+          <input class="popup__submit-button popup__submit-button_type_create-place" type="submit" value="Создать" name="submit">
+        </fieldset>
+      </form>
+    </div>
+  </section>
+
+  <section class="popup popup_type_picture-zoom">
+    <div class="popup__container popup__container_type_picture-zoom">
+      <div class="popup__close-button-container">
+        <button class="popup__close-button" type="button"></button>
+      </div>
+      <figure class="popup__image-container">
+        <img class="popup__image" src="" alt="">
+        <figcaption class="popup__image-caption"></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <template class="element__template">
+    <li class="element">
+      <img class="element__image" src="" alt="">
+      <button class="element__delete-button" type="button"></button>
+      <div class="element__bottom-bar">
+        <h2 class="element__title"></h2>
+        <button class="element__like-button" type="button"></button>
+      </div>
+    </li>
+  </template>
 
   <script src="./scripts/script.js"></script>
 </body>
