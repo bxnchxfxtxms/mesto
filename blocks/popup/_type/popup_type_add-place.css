@@ -1,6 +1,0 @@
-.popup_type_add-place {
-  display: flex;
-  visibility: hidden;
-  opacity: 0;
-  transition: .3s linear;
-}

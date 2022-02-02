@@ -1,4 +1,8 @@
 .popup {
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  transition: .3s linear;
   flex-direction: column;
   width: 100%;
   background-color: rgba(0, 0, 0, .5);
