@@ -106,7 +106,7 @@ function handleAddNewCard(event) {
 
 function openPictureZoomPopup(event) {
   popupImage.src = event.target.src;
-  popupImageCaption.textContent = event.target.parentElement.textContent;
+  popupImageCaption.textContent = event.target.closest('.element').textContent;
   openPopup(pictureZoom);
 }
 
