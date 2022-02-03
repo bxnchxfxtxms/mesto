@@ -13,7 +13,7 @@ const placeLinkInput = addNewPlaceForm.querySelector('.popup__input-field_input-
 const userName = document.querySelector('.profile__username');
 const userBio = document.querySelector('.profile__user-bio');
 const addPlace = document.querySelector('.popup_type_add-place');
-const closePopupButton = document.querySelectorAll('.popup__close-button');
+const closePopupButtonList = document.querySelectorAll('.popup__close-button');
 const popupImage = pictureZoom.querySelector('.popup__image');
 const popupImageCaption = pictureZoom.querySelector('.popup__image-caption');
 
@@ -43,10 +43,6 @@ const initialCards = [
     link: 'https://images.unsplash.com/photo-1641297136561-17697bdb017b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80'
   }
 ];
-
-closePopupButton.forEach(item => {
-  item.addEventListener('click', closePopup)
-});
 
 function closePopup(event) {
   event.target.closest('.popup').classList.remove('popup_opened');
@@ -79,27 +75,24 @@ function addCardEventListeners(element) {
   element.querySelector('.element__image').addEventListener('click', openPictureZoomPopup);
 }
 
-function createEmptyCard(cardData) {
-  const emptyCard = elementTemplate.cloneNode(true);
-  emptyCard.querySelector('.element__image').src = cardData.link;
-  emptyCard.querySelector('.element__title').textContent = cardData.name;
-  addCardEventListeners(emptyCard);
-  return emptyCard;
-}
-
-function writeCardContent(content) {
-  const cardWithContent = createEmptyCard(content);
-  return cardWithContent;
+function createNewCard(cardData) {
+  const newCard = elementTemplate.cloneNode(true);
+  newCard.querySelector('.element__image').src = cardData.link;
+  newCard.querySelector('.element__title').textContent = cardData.name;
+  addCardEventListeners(newCard);
+  return newCard;
 }
 
 function renderCard(card) {
-  const renderedCard = writeCardContent(card);
+  const renderedCard = createNewCard(card);
   elementsList.prepend(renderedCard);
 }
 
-initialCards.forEach(item => {
-  renderCard(item);
-})
+function renderInitialCards() {
+  initialCards.forEach(renderCard);
+}
+
+renderInitialCards();
 
 function handleAddNewCard(event) {
   event.preventDefault();
@@ -134,3 +127,7 @@ editProfileForm.addEventListener('submit', handleEditProfile);
 addNewPlaceForm.addEventListener('submit', handleAddNewCard);
 profileEditButton.addEventListener('click', openProfileEditPopup);
 addNewPlaceButton.addEventListener('click', openAddNewPlacePopup);
+
+closePopupButtonList.forEach(item => {
+  item.addEventListener('click', closePopup);
+});
