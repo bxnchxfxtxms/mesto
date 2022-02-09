@@ -1,7 +1,7 @@
 .popup__input-field {
   outline: none;
   border: none;
-  padding: 0 0 13px;
+  padding-bottom: 13px;
   border-bottom: 1px solid rgba(0, 0, 0, .2);
   width: 358px;
   font-style: normal;
@@ -9,11 +9,7 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-  margin: 54px 0 30px 36px;
-}
-
-.popup__input-field:nth-child(3) {
-  margin: 0 0 0 36px;
+  margin: 0;
 }
 
 .popup__input-field::placeholder {
@@ -23,10 +19,5 @@
 @media screen and (max-width: 600px) {
   .popup__input-field {
     width: 238px;
-    margin: 75px 0 30px 22px;
-  }
-
-  .popup__input-field:nth-child(3) {
-    margin: 0 0 0 22px;
   }
 }

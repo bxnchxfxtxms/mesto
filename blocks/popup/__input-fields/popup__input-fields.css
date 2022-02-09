@@ -3,4 +3,5 @@
   border: none;
   display: flex;
   flex-direction: column;
+  padding-left: 36px;
 }
