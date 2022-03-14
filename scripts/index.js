@@ -1,3 +1,15 @@
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
+const validationSettings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input-field',
+  submitButtonSelector: '.popup__submit-button',
+  inactiveButtonClass: 'popup__submit-button_disabled',
+  inputErrorClass: 'popup__input-field_type_error',
+  errorClass: 'popup__input-error_active'
+};
+
 const popupList = document.querySelectorAll('.popup');
 const popupInputFieldList = document.querySelectorAll('.popup__input-field');
 const popupErrorMessageList = document.querySelectorAll('.popup__input-error');
@@ -11,13 +23,16 @@ const pictureZoom = document.querySelector('.popup_type_picture-zoom');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const addNewPlaceButton = document.querySelector('.profile__add-button');
 const editProfile = document.querySelector('.popup_type_edit-profile');
-const elementsList = document.querySelector('.elements__grid')
-const elementTemplate = document.querySelector('.element__template').content;
+const elementsList = document.querySelector('.elements__grid');
 const userName = document.querySelector('.profile__username');
 const userJob = document.querySelector('.profile__user-bio');
 const addPlace = document.querySelector('.popup_type_add-place');
 const popupImage = pictureZoom.querySelector('.popup__image');
 const popupImageCaption = pictureZoom.querySelector('.popup__image-caption');
+
+const editProfileFormValidator = new FormValidator(validationSettings, editProfileForm);
+const addNewPlaceFormValidator = new FormValidator(validationSettings, addNewPlaceForm);
+
 
 const initialCards = [
   {
@@ -46,8 +61,6 @@ const initialCards = [
   }
 ];
 
-
-
 const enableExitPopupWithEscapeButton = ((event) => {
   if (event.key === 'Escape') {
     event.preventDefault();
@@ -63,9 +76,9 @@ function handlePopupExitByMouseClick (event) {
 
 function closePopup() {
   window.removeEventListener('click', handlePopupExitByMouseClick);
-  window.removeEventListener('keydown', enableExitPopupWithEscapeButton)
+  window.removeEventListener('keydown', enableExitPopupWithEscapeButton);
   popupList.forEach((popup) => {
-    popup.classList.remove('popup_opened')
+    popup.classList.remove('popup_opened');
   })
 }
 
@@ -78,14 +91,6 @@ function clearInputErrors() {
   })
 }
 
-function toggleLike(event) {
-  event.target.classList.toggle('element__like-button_active');
-}
-
-function deleteElement(event) {
-  event.target.parentElement.remove();
-}
-
 function openPopup(popupElement) {
   window.addEventListener('click', handlePopupExitByMouseClick);
   window.addEventListener('keydown', enableExitPopupWithEscapeButton);
@@ -93,36 +98,21 @@ function openPopup(popupElement) {
 };
 
 function openAddNewPlacePopup() {
-  disableSubmitButton(addNewPlaceForm.elements.create, 'popup__submit-button_disabled')
+  addNewPlaceFormValidator.disableSubmitButton();
   clearInputErrors();
   addNewPlaceForm.reset();
   openPopup(addPlace);
 }
 
-function addCardEventListeners(element) {
-  element.querySelector('.element__like-button').addEventListener('click', toggleLike);
-  element.querySelector('.element__delete-button').addEventListener('click', deleteElement);
-  element.querySelector('.element__image').addEventListener('click', openPictureZoomPopup);
-}
-
-function createNewCard(cardData) {
-  const newCard = elementTemplate.cloneNode(true);
-  const newCardImage = newCard.querySelector('.element__image');
-  newCardImage.src = cardData.link;
-  newCardImage.alt = cardData.name;
-  newCard.querySelector('.element__title').textContent = cardData.name;
-  addCardEventListeners(newCard);
-  return newCard;
-}
-
-function renderCard(card) {
-  const renderedCard = createNewCard(card);
+function renderCard(data) {
+  const newCard = new Card(data, '.element__template', openPictureZoomPopup);
+  const renderedCard = newCard.generateCard();
   elementsList.prepend(renderedCard);
 }
 
 function renderInitialCards() {
   initialCards.forEach(renderCard);
-}
+} 
 
 renderInitialCards();
 
@@ -136,15 +126,15 @@ function handleAddNewCard(event) {
   addNewPlaceForm.reset();
 }
 
-function openPictureZoomPopup(event) {
-  popupImage.src = event.target.src;
-  popupImageCaption.textContent = event.target.closest('.element').textContent;
+function openPictureZoomPopup() {
+  popupImage.src = this._link;
+  popupImageCaption.textContent = this._name;
   popupImage.alt = popupImageCaption.textContent;
   openPopup(pictureZoom);
 }
 
 function openProfileEditPopup() {
-  disableSubmitButton(editProfileForm.elements.save, 'popup__submit-button_disabled')
+  editProfileFormValidator.disableSubmitButton();
   clearInputErrors();
   nameInput.value = userName.textContent;
   jobInput.value = userJob.textContent;
@@ -162,3 +152,5 @@ editProfileForm.addEventListener('submit', handleEditProfile);
 addNewPlaceForm.addEventListener('submit', handleAddNewCard);
 profileEditButton.addEventListener('click', openProfileEditPopup);
 addNewPlaceButton.addEventListener('click', openAddNewPlacePopup);
+editProfileFormValidator.enableValidation();
+addNewPlaceFormValidator.enableValidation();

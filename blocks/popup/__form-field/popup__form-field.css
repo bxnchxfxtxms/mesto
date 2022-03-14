@@ -1,9 +1,4 @@
 .popup__form-field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 13px;
-}
-
-.popup__form-field:nth-child(3) {
-  margin-bottom: 0;
 }
