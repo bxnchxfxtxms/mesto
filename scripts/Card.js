@@ -1,9 +1,9 @@
 export class Card {
-  constructor(data, cardSelector, openPictureZoomPopup) {
+  constructor(data, cardSelector, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
-    this._openPictureZoomPopup = openPictureZoomPopup;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -17,19 +17,19 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._element.querySelector('.element__like-button').addEventListener('click', () => {
+    this._likeButton.addEventListener('click', () => {
       this._toggleLike();
     });
-    this._element.querySelector('.element__delete-button').addEventListener('click', () => {
+    this._deleteButton.addEventListener('click', () => {
       this._deleteCard();
     })
-    this._element.querySelector('.element__image').addEventListener('click', () => {
-      this._openPictureZoomPopup();
+    this._elementImage.addEventListener('click', () => {
+      this._handleCardClick(this._name, this._link);
     })
   }
   
   _toggleLike() {
-    this._element.querySelector('.element__like-button').classList.toggle('element__like-button_active');
+    this._likeButton.classList.toggle('element__like-button_active');
   }
 
   _deleteCard() {
@@ -37,14 +37,17 @@ export class Card {
   }
 
   _fillCard() {
-    const elementImage = this._element.querySelector('.element__image');
-    elementImage.src = this._link;
-    elementImage.alt = this._name;
-    this._element.querySelector('.element__title').textContent = this._name;
+    this._elementImage.src = this._link;
+    this._elementImage.alt = this._name;
+    this._elementTitle.textContent = this._name;
   }
 
   generateCard() {
     this._element = this._getTemplate();
+    this._likeButton = this._element.querySelector('.element__like-button');
+    this._elementImage = this._element.querySelector('.element__image');
+    this._elementTitle = this._element.querySelector('.element__title');
+    this._deleteButton = this._element.querySelector('.element__delete-button');
     this._setEventListeners();
     this._fillCard();
     return this._element;

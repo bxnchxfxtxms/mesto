@@ -61,7 +61,7 @@ const initialCards = [
   }
 ];
 
-const enableExitPopupWithEscapeButton = ((event) => {
+const handleEscapeKey = ((event) => {
   if (event.key === 'Escape') {
     event.preventDefault();
     closePopup();
@@ -76,37 +76,33 @@ function handlePopupExitByMouseClick (event) {
 
 function closePopup() {
   window.removeEventListener('click', handlePopupExitByMouseClick);
-  window.removeEventListener('keydown', enableExitPopupWithEscapeButton);
+  window.removeEventListener('keydown', handleEscapeKey);
   popupList.forEach((popup) => {
     popup.classList.remove('popup_opened');
   })
 }
 
-function clearInputErrors() {
-  popupInputFieldList.forEach((field) => {
-    field.classList.remove('popup__input-field_type_error');
-  })
-  popupErrorMessageList.forEach((message) => {
-    message.classList.remove('popup__input-error_active');
-  })
-}
-
 function openPopup(popupElement) {
   window.addEventListener('click', handlePopupExitByMouseClick);
-  window.addEventListener('keydown', enableExitPopupWithEscapeButton);
+  window.addEventListener('keydown', handleEscapeKey);
   popupElement.classList.add('popup_opened');
 };
 
 function openAddNewPlacePopup() {
   addNewPlaceFormValidator.disableSubmitButton();
-  clearInputErrors();
+  addNewPlaceFormValidator.resetValidation();
   addNewPlaceForm.reset();
   openPopup(addPlace);
 }
 
+function createCard(item) {
+  const newCard = new Card(item, '.element__template', handleCardClick);
+  const cardElement = newCard.generateCard();
+  return cardElement;
+}
+
 function renderCard(data) {
-  const newCard = new Card(data, '.element__template', openPictureZoomPopup);
-  const renderedCard = newCard.generateCard();
+  const renderedCard = createCard(data);
   elementsList.prepend(renderedCard);
 }
 
@@ -126,16 +122,16 @@ function handleAddNewCard(event) {
   addNewPlaceForm.reset();
 }
 
-function openPictureZoomPopup() {
-  popupImage.src = this._link;
-  popupImageCaption.textContent = this._name;
+function handleCardClick(name, link) {
+  popupImage.src = link;
+  popupImageCaption.textContent = name;
   popupImage.alt = popupImageCaption.textContent;
   openPopup(pictureZoom);
 }
 
 function openProfileEditPopup() {
   editProfileFormValidator.disableSubmitButton();
-  clearInputErrors();
+  editProfileFormValidator.resetValidation();
   nameInput.value = userName.textContent;
   jobInput.value = userJob.textContent;
   openPopup(editProfile);
