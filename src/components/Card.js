@@ -1,5 +1,5 @@
-export class Card {
-  constructor(data, cardSelector, handleCardClick) {
+export default class Card {
+  constructor(data, cardSelector, { handleCardClick }) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
@@ -12,7 +12,6 @@ export class Card {
     .content
     .querySelector('.element')
     .cloneNode(true);
-
     return cardElement;
   }
 

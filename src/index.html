@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./pages/index.css">
   <title>mesto</title>
 </head>
 <body class="page">
 
   <header class="header">
-    <img class="header__logo" src="./images/header-logo.svg" alt="Логотип сайта">
-  </header>, 
+    <img class="header__logo" src="<%=require('./images/header-logo.svg')%>" alt="Логотип сайта">
+  </header>
 
   <main class="content">
 
     <section class="profile">
-      <img class="profile__avatar" src="./images/profile-avatar.jpg" alt="Аватар пользователя">
+      <img class="profile__avatar" src="<%=require('./images/profile-avatar.jpg')%>" alt="Аватар пользователя">
       <div class="profile__info">
         <div class="profile__info-line">
           <h1 class="profile__username">Жак-Ив Кусто</h1>
@@ -103,7 +102,5 @@
       </div>
     </li>
   </template>
-
-  <script src="./scripts/index.js" type="module"></script>
 </body>
 </html>
