@@ -1,5 +1,3 @@
-import { popupList } from '../utils/constants.js'
-
 export default class Popup {
   constructor(popupSelector) {
     this._popupSelector = document.querySelector(popupSelector);
@@ -21,9 +19,10 @@ export default class Popup {
   _removeEventListeners() {
     window.removeEventListener('keydown', this._handleEscClose);
   }
-  
+    
   open() {
     this._popupSelector.classList.add('popup_opened');
+    window.addEventListener('keydown', this._handleEscClose);
   }
   
   close() {
@@ -32,11 +31,8 @@ export default class Popup {
   }
 
   setEventListeners() {
-    window.addEventListener('keydown', this._handleEscClose);
-    popupList.forEach((item) => {
-      item.addEventListener('click', (event) => {
-        this._handleMouseClickClose(event);
-      })
+    this._popupSelector.addEventListener('click', (event) => {
+      this._handleMouseClickClose(event);
     })
   }
 }

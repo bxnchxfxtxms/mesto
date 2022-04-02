@@ -4,14 +4,16 @@ export default class UserInfo {
     this._userBio = document.querySelector(bio);
   }
 
-  getUserInfo(formName) {
-    this._formSelector = document.forms.namedItem(formName);
-    this._formSelector.elements[1].value = this._userName.textContent;
-    this._formSelector.elements[2].value = this._userBio.textContent;
+  getUserInfo() {
+    const userData = {
+      name: this._userName.textContent,
+      bio: this._userBio.textContent
+    };
+    return userData;
   }
 
   setUserInfo(data) {
-    this._userName.textContent = data.field1;
-    this._userBio.textContent = data.field2;
+    this._userName.textContent = data.name;
+    this._userBio.textContent = data.bio;
   }
 }

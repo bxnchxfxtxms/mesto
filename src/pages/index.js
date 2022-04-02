@@ -15,83 +15,87 @@ import {
   profileEditButton,
   addNewPlaceButton,
   containerSelector,
+  username,
+  userBio
 } from '../utils/constants.js'
 
 const userInfo = new UserInfo({
   name: '.profile__username',
   bio: '.profile__user-bio'
 })
-const editProfileFormValidator = new FormValidator(validationSettings, editProfileForm);
-const addNewPlaceFormValidator = new FormValidator(validationSettings, addNewPlaceForm);
 
-const initialCardsList = new Section({
+const popupWithImage = new PopupWithImage('.popup_type_picture-zoom');
+popupWithImage.setEventListeners();
+     
+const profileFormValidator = new FormValidator(validationSettings, editProfileForm);
+const newPlaceFormValidator = new FormValidator(validationSettings, addNewPlaceForm);
+
+function setCurrentUserData() {
+  const userData = userInfo.getUserInfo();
+  username.value = userData.name;
+  userBio.value = userData.bio;
+}
+
+function createCard(data) {
+  const card = new Card(
+    data,
+    '.element__template',
+    {
+      handleCardClick: (name, link) => {
+        popupWithImage.open(name, link)
+      }
+    }
+  )
+  const cardElement = card.generateCard();
+  return cardElement;
+}
+
+const cardContainer = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(
-      item,
-      '.element__template',
-      {
-        handleCardClick: (name, link) => {
-          const popupWithImage = new PopupWithImage('.popup_type_picture-zoom');
-          popupWithImage.setEventListeners();
-          popupWithImage.open(name, link)
-        }
-      });
-      const cardElement = card.generateCard();
-      initialCardsList.addItem(cardElement)
+    cardContainer.addItem(createCard(item));
     }
   }, containerSelector)
 
 const addNewPlacePopup = new PopupWithForm({
   submitForm: (data) => {
-    const newCardData = [{
+    const newCardData = {
       name: data.field1,
       link: data.field2
-    }];
-    const newElement = new Section({
-      items: newCardData,
-      renderer: (item) => {
-        const card = new Card(
-          item,
-          '.element__template',
-          {
-            handleCardClick: (name, link) => {
-              const popupWithImage = new PopupWithImage('.popup_type_picture-zoom');
-              popupWithImage.setEventListeners();
-              popupWithImage.open(name, link)
-            }
-          });
-          const cardElement = card.generateCard();
-          newElement.addItem(cardElement)
-        }
-      }, containerSelector)
-    newElement.renderItems();
+    };
+    cardContainer.addItem(createCard(newCardData));
     addNewPlacePopup.close();
   }
 }, '.popup_type_add-place', 'place');
 
+addNewPlacePopup.setEventListeners();
+
 const editUserProfile = new PopupWithForm({
   submitForm: (data) => {
-  userInfo.setUserInfo(data)
+  const newUserInfo = {
+    name: data.field1,
+    bio: data.field2
+  }
+  userInfo.setUserInfo(newUserInfo)
   editUserProfile.close()
   }
 }, '.popup_type_edit-profile', 'profile')
 
+editUserProfile.setEventListeners();
+
 profileEditButton.addEventListener('click', () => {
-  editUserProfile.setEventListeners();
-  editProfileFormValidator.disableSubmitButton();
-  editProfileFormValidator.resetValidation();
-  userInfo.getUserInfo('profile')
-  editUserProfile.open()
+  profileFormValidator.disableSubmitButton();
+  profileFormValidator.resetValidation();
+  setCurrentUserData();
+  editUserProfile.open();
 });
 
 addNewPlaceButton.addEventListener('click', () => { 
-  addNewPlacePopup.setEventListeners();
-  addNewPlaceFormValidator.disableSubmitButton();
-  addNewPlaceFormValidator.resetValidation();
+  newPlaceFormValidator.disableSubmitButton();
+  newPlaceFormValidator.resetValidation();
   addNewPlacePopup.open();
 })
 
-editProfileFormValidator.enableValidation();
-addNewPlaceFormValidator.enableValidation();
-initialCardsList.renderItems();
+profileFormValidator.enableValidation();
+newPlaceFormValidator.enableValidation();
+cardContainer.renderItems();
