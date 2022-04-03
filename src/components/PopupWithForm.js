@@ -25,16 +25,6 @@ export default class PopupWithForm extends Popup {
     return gatheredData;
 }
 
-//  _getInputValues() {
-//    const gatheredData = {};
-//    for (let i = 0; i < this._formElement.length; i++) {
-//      if (this._formElement.elements[i].localName === 'input') {
-//        gatheredData['field'+[i]] = this._formElement.elements[i].value;
-//      }
-//    }
-//    return gatheredData;
-//  }
-
   _handleSubmitForm = (event) => {
     event.preventDefault();
     const data = this._getInputValues();
