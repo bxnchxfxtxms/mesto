@@ -39,6 +39,5 @@ export const editProfileForm = document.forms.profile;
 export const addNewPlaceForm = document.forms.place;
 export const profileEditButton = document.querySelector('.profile__edit-button');
 export const addNewPlaceButton = document.querySelector('.profile__add-button');
-export const containerSelector = document.querySelector('.elements__grid');
 export const username = editProfileForm.elements.username;
 export const userBio = editProfileForm.elements.job;

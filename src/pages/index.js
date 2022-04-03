@@ -14,7 +14,6 @@ import {
   addNewPlaceForm,
   profileEditButton,
   addNewPlaceButton,
-  containerSelector,
   username,
   userBio
 } from '../utils/constants.js'
@@ -55,31 +54,31 @@ const cardContainer = new Section({
   renderer: (item) => {
     cardContainer.addItem(createCard(item));
     }
-  }, containerSelector)
+  }, '.elements__grid')
 
 const addNewPlacePopup = new PopupWithForm({
   submitForm: (data) => {
     const newCardData = {
-      name: data.field1,
-      link: data.field2
+      name: data.place,
+      link: data.picture
     };
     cardContainer.addItem(createCard(newCardData));
     addNewPlacePopup.close();
   }
-}, '.popup_type_add-place', 'place');
+}, '.popup_type_add-place');
 
 addNewPlacePopup.setEventListeners();
 
 const editUserProfile = new PopupWithForm({
   submitForm: (data) => {
   const newUserInfo = {
-    name: data.field1,
-    bio: data.field2
+    name: data.username,
+    bio: data.job
   }
   userInfo.setUserInfo(newUserInfo)
   editUserProfile.close()
   }
-}, '.popup_type_edit-profile', 'profile')
+}, '.popup_type_edit-profile')
 
 editUserProfile.setEventListeners();
 
