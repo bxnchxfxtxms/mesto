@@ -2,7 +2,10 @@
   background-color: #fff;
   min-height: 79px;
   border-radius: 0 0 10px 10px;
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: space-between;
+  grid-template-areas:
+    "caption like-button"
+    "caption like-counter";
 }

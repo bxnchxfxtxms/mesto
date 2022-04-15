@@ -12,6 +12,7 @@
   transition: .2s ease-out;
   cursor: pointer;
   background-color: transparent;
+  display: none;
 }
 
 .element__delete-button:hover {
