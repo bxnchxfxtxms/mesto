@@ -45,9 +45,29 @@ function setCurrentUserData() {
     }
     userInfo.setUserInfo(currentUserData)
   })
+  .catch(err => {
+    console.log(err)
+  })
 }
 
-setCurrentUserData()
+Promise.all([api.getUserInfo(), api.getCards()])
+.then(res => {
+  const serverData = {userData: res[0], cards: res[1]}
+  return serverData
+})
+.then(data => {
+  const currentUserData = {
+    name: data.userData.name,
+    about: data.userData.about,
+    id: data.userData._id,
+    avatar: data.userData.avatar
+  }
+  userInfo.setUserInfo(currentUserData)
+  cardContainer.renderItems(data.cards)
+})
+.catch(err => {
+  console.log(err)
+})
 
 const cardDeleteConfirmationPopup = new PopupWithForm({
   submitHandler: (cardId) => {
@@ -93,10 +113,17 @@ function createCard(data) {
         api.setLike(cardId)
         .then(data => {
           card.setLikes(data)
-        })} else {
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
           api.removeLike(cardId)
           .then(data => {
             card.setLikes(data)
+          })
+          .catch(err => {
+            console.log(err)
           })
         }
       }
@@ -108,7 +135,6 @@ function createCard(data) {
 }
 
 const cardContainer = new Section({
-  items: [],
   renderer: (item) => {
     cardContainer.addItem(createCard(item));
     }
@@ -125,7 +151,12 @@ const addNewPlacePopup = new PopupWithForm({
     .then(newCardReturnedData => {
       cardContainer.addItem(createCard(newCardReturnedData))
       addNewPlacePopup.close();
+    })
+    .finally(() => {
       addNewPlacePopup.renderLoading(false);
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 }, '.popup_type_add-place');
@@ -142,8 +173,13 @@ const editUserProfile = new PopupWithForm({
   api.editUserInfo(newUserInfo)
   .then(() => {
     setCurrentUserData()
-    editUserProfile.renderLoading(false)
     editUserProfile.close()
+  })
+  .finally(() => {
+    editUserProfile.renderLoading(false)
+  })
+  .catch(err => {
+    console.log(err)
   })
   }
 }, '.popup_type_edit-profile')
@@ -156,8 +192,13 @@ const changeAvatarPopup = new PopupWithForm({
     api.changeAvatar(link)
     .then(() => {
       setCurrentUserData()
-      changeAvatarPopup.renderLoading(false)
       changeAvatarPopup.close()
+    })
+    .finally(() => {
+      changeAvatarPopup.renderLoading(false)
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 }, '.popup_type_change-avatar');
@@ -165,32 +206,21 @@ const changeAvatarPopup = new PopupWithForm({
 changeAvatarPopup.setEventListeners();
 
 profileEditButton.addEventListener('click', () => {
-  profileFormValidator.disableSubmitButton();
   profileFormValidator.resetValidation();
   fillFormWithCurrentUserData();
   editUserProfile.open();
 });
 
 addNewPlaceButton.addEventListener('click', () => { 
-  newPlaceFormValidator.disableSubmitButton();
   newPlaceFormValidator.resetValidation();
   addNewPlacePopup.open();
 })
 
 avatarChanger.addEventListener('click', () => {
-  changeAvatarFormValidator.disableSubmitButton();
   changeAvatarFormValidator.resetValidation();
   changeAvatarPopup.open()
-})
-
-api.getCards()
-.then(data => {
-  data.forEach(item => {
-    cardContainer.addItem(createCard(item))
-  })
 })
 
 profileFormValidator.enableValidation();
 newPlaceFormValidator.enableValidation();
 changeAvatarFormValidator.enableValidation();
-cardContainer.renderItems();

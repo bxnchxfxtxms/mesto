@@ -4,12 +4,15 @@ export default class Api {
     this._headers = headers;
   }
 
+  _checkResponse(res) {
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+  }
+
   getCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 
   deleteCard(cardId) {
@@ -17,16 +20,14 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 
   postNewCard(data) {
@@ -38,8 +39,7 @@ export default class Api {
         link: data.link
       })
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 
   setLike(cardId) {
@@ -47,8 +47,7 @@ export default class Api {
       method: 'PUT',
       headers: this._headers
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
   
   removeLike(cardId) {
@@ -56,8 +55,7 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 
   editUserInfo(data) {
@@ -69,8 +67,7 @@ export default class Api {
         about: data.about
       })
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 
   changeAvatar(data) {
@@ -81,7 +78,6 @@ export default class Api {
         avatar: data.avatarLink
       })
     })
-    .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`))
-    .catch(console.log)
+    .then(this._checkResponse)
   }
 }

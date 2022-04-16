@@ -13,7 +13,7 @@ export default class Card {
     this._cardId = data._id;
     this._ownerId = data.owner._id;
     this._currentUserData = currentUserData;
-    this._cardSelector = cardSelector;
+    this._card = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleCardDelete = handleCardDelete;
     this._handleLikeButtonClick = handleLikeButtonClick
@@ -22,7 +22,7 @@ export default class Card {
 
   _getTemplate() {
     const cardElement = document
-    .querySelector(this._cardSelector)
+    .querySelector(this._card)
     .content
     .querySelector('.element')
     .cloneNode(true);
@@ -32,7 +32,8 @@ export default class Card {
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => {
       this._handleLikeButtonClick(this._cardId, this._checkOwnerLikes());
-      this._toggleLike();
+      this._currentUserData
+      .then(() => this._toggleLike())
     });
     this._deleteButton.addEventListener('click', () => {
       this._handleCardDelete(this._cardId);
@@ -61,6 +62,9 @@ export default class Card {
         }
       })
     })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   deleteCard() {
@@ -77,6 +81,9 @@ export default class Card {
       if (item._id === this._ownerId) {
         this._deleteButton.classList.add('element__delete-button_visible')
       }
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 
