@@ -34,22 +34,6 @@ const userInfo = new UserInfo({
   avatar: '.profile__avatar'
 })
 
-function setCurrentUserData() {
-  api.getUserInfo()
-  .then(data => {
-    const currentUserData = {
-      name: data.name,
-      about: data.about,
-      id: data._id,
-      avatar: data.avatar
-    }
-    userInfo.setUserInfo(currentUserData)
-  })
-  .catch(err => {
-    console.log(err)
-  })
-}
-
 Promise.all([api.getUserInfo(), api.getCards()])
 .then(res => {
   const serverData = {userData: res[0], cards: res[1]}
@@ -171,8 +155,8 @@ const editUserProfile = new PopupWithForm({
     about: data.about
   }
   api.editUserInfo(newUserInfo)
-  .then(() => {
-    setCurrentUserData()
+  .then((data) => {
+    userInfo.setUserInfo(data)
     editUserProfile.close()
   })
   .finally(() => {
@@ -190,8 +174,8 @@ const changeAvatarPopup = new PopupWithForm({
   submitHandler: (link) => {
     changeAvatarPopup.renderLoading(true)
     api.changeAvatar(link)
-    .then(() => {
-      setCurrentUserData()
+    .then((data) => {
+      userInfo.setUserInfo(data)
       changeAvatarPopup.close()
     })
     .finally(() => {

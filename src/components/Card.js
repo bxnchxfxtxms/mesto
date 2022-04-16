@@ -32,8 +32,6 @@ export default class Card {
   _setEventListeners() {
     this._likeButton.addEventListener('click', () => {
       this._handleLikeButtonClick(this._cardId, this._checkOwnerLikes());
-      this._currentUserData
-      .then(() => this._toggleLike())
     });
     this._deleteButton.addEventListener('click', () => {
       this._handleCardDelete(this._cardId);
@@ -46,13 +44,13 @@ export default class Card {
   _toggleLike() {
     this._likeButton.classList.toggle('element__like-button_active');
   }
-
+  
   _checkOwnerLikes() {
     let state;
     this._likeButton.classList.contains('element__like-button_active') ? state = true : state = false;
     return state;
   }
-
+  
   _setOwnerLikes() {
     this._currentUserData
     .then(item => {
@@ -66,13 +64,14 @@ export default class Card {
       console.log(err)
     })
   }
-
+  
   deleteCard() {
     this._element.remove();
   }
-
+  
   setLikes(data) {
     this._likeCounter.textContent = data.likes.length
+    this._toggleLike()
   }
 
   _setDeleteButton() {
