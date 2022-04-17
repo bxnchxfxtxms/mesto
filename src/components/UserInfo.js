@@ -8,7 +8,8 @@ export default class UserInfo {
   getUserInfo() {
     const userData = {
       name: this._userName.textContent,
-      about: this._userBio.textContent
+      about: this._userBio.textContent,
+      userId: this._userId
     };
     return userData;
   }
@@ -17,5 +18,6 @@ export default class UserInfo {
     this._userName.textContent = data.name;
     this._userBio.textContent = data.about;
     this._userAvatar.src = data.avatar;
+    this._userId = data.id
   }
 }

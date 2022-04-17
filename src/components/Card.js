@@ -5,14 +5,14 @@ export default class Card {
       handleCardDelete,
       handleLikeButtonClick
     },
-    currentUserData) {
+    userId) {
 
     this._name = data.name;
     this._link = data.link;
     this._likes = data.likes;
     this._cardId = data._id;
     this._ownerId = data.owner._id;
-    this._currentUserData = currentUserData;
+    this._userId = userId
     this._card = cardSelector;
     this._handleCardClick = handleCardClick;
     this._handleCardDelete = handleCardDelete;
@@ -52,16 +52,10 @@ export default class Card {
   }
   
   _setOwnerLikes() {
-    this._currentUserData
-    .then(item => {
-      this._likes.forEach(like => {
-        if (like._id === item._id) {
-          this._likeButton.classList.add('element__like-button_active')
-        }
-      })
-    })
-    .catch(err => {
-      console.log(err)
+    this._likes.forEach(like => {
+      if (like._id === this._userId) {
+        this._likeButton.classList.add('element__like-button_active')
+      }
     })
   }
   
@@ -75,15 +69,9 @@ export default class Card {
   }
 
   _setDeleteButton() {
-    this._currentUserData
-    .then(item => {
-      if (item._id === this._ownerId) {
-        this._deleteButton.classList.add('element__delete-button_visible')
-      }
-    })
-    .catch(err => {
-      console.log(err)
-    })
+    if (this._userId === this._ownerId) {
+      this._deleteButton.classList.add('element__delete-button_visible')
+    }
   }
 
   _fillCard() {

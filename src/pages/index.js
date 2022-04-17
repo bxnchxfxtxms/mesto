@@ -31,7 +31,7 @@ const api = new Api({
 const userInfo = new UserInfo({
   name: '.profile__username',
   about: '.profile__user-bio',
-  avatar: '.profile__avatar'
+  avatar: '.profile__avatar',
 })
 
 Promise.all([api.getUserInfo(), api.getCards()])
@@ -112,7 +112,7 @@ function createCard(data) {
         }
       }
     },
-    api.getUserInfo()
+    userInfo.getUserInfo().userId
   )
   const cardElement = card.generateCard();
   return cardElement;
