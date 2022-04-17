@@ -18,6 +18,6 @@ export default class UserInfo {
     this._userName.textContent = data.name;
     this._userBio.textContent = data.about;
     this._userAvatar.src = data.avatar;
-    this._userId = data.id
+    this._userId = data._id
   }
 }

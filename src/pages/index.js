@@ -40,13 +40,7 @@ Promise.all([api.getUserInfo(), api.getCards()])
   return serverData
 })
 .then(data => {
-  const currentUserData = {
-    name: data.userData.name,
-    about: data.userData.about,
-    id: data.userData._id,
-    avatar: data.userData.avatar
-  }
-  userInfo.setUserInfo(currentUserData)
+  userInfo.setUserInfo(data.userData)
   cardContainer.renderItems(data.cards)
 })
 .catch(err => {
